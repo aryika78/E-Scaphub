@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.AreaMaster>
+@{
+    ViewData["Title"] = "UserSellingFinalizeArea";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="row" style="font-family:'Arial Rounded MT'; color:red; font-size:30px; margin-top:50px;margin-bottom:50px;margin-left:300px;">
+    @using (Html.BeginForm("UserSellingFinalizeArea", "User", FormMethod.Post, new { id = "sfVal" }))
+    {
+        <div class="row">
+            <select name="Arealist" id="Arealist" style="width:800px;height:50px;" class="form-control  fa">
+                <option value="" class="form-control fa"> &#xf128; Select Area For Transportor</option>
+                @foreach (var res in Model)
+                {
+                    <option value="@res.Areaname">@res.Areaname</option>
+                }
+            </select>
+        </div>
+        <div class="row" style="margin-top:30px;margin-left:800px;font-size:30px;margin-bottom:30px;">
+            <input type="submit" id="submit" value="&#xf1b9 Next" class="btn btn-warning fa" style="width:150px;" />
+        </div>
+    }
+</div>
+
+@section sfValidation
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sfVal").validate({
+                rules: {
+                    Arealist: {
+                        required:true
+                    },
+                },
+                messages: {
+                    Arealist: {
+                        required: 'Please Select Area'
+                    },
+                },
+                errorPlacement:function(error,element){
+                    error.insertAfter(element.parent());
+                }
+            })
+        });
+    </script>
+}

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.ProductSubCategory>
+@{
+    ViewData["Title"] = "UserSubCateogryDetail";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("UserHome","User", new { Pid = Convert.ToInt32(TempData["usrId"]) })">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+        <a href="@Url.Action("ViewSellingCartDetails","User")" data-toggle="tooltip" title="View Add To Cart" style="font-size:40px; "><i class="fa fa-shopping-cart"></i></a>
+    </div>
+</nav>
+
+
+<link href="~/css/SubCategory.css" rel="stylesheet" />
+
+
+<div style="background-color:darkseagreen; color:black; font-size:50px; width:100%;">Category Name : @TempData["catName"]</div>
+<div class="container">
+    <div class="row">
+        @{
+            int flag = 0;
+            string mycolor = "";
+            @foreach (var sc in Model)
+            {
+                <div class="col-md-4 col-sm-6" style="margin-top:30px;">
+                    @{
+                        if (flag == 0)
+                        {
+                            mycolor = "orange";
+                            flag++;
+                        }
+                        else if (flag == 1)
+                        {
+                            mycolor = "blue";
+                            flag++;
+                        }
+                        else
+                        {
+                            mycolor = "purple";
+                            flag = 0;
+                        }
+                    }
+                    <div class="pricingTable @mycolor">
+                        <div class="pricingTable-header">
+                            <h3 class="title">@sc.SCname</h3>
+                            <div class="price-value" style="font-size:15px;">@sc.SCpriceperunit /unit</div>
+                        </div>
+                        <ul class="pricing-content">
+                            <li>
+                                @if (!string.IsNullOrWhiteSpace(sc.SCimage))
+                                {
+                                    <img height="70" width="70" src="@Url.Content("~/" + sc.SCimage)" alt="No Image" />
+                                }
+                            </li>
+                            <li><i class="fa fa-check"></i>Description:</li>
+                            <li><i class="fa fa-check"></i>@sc.SCdesc</li>                            
+                        </ul>
+
+                        <a class="pricingTable-signup" href="@Url.Action("UserSCItemAddtocart","User", new { SCid = sc.SCid })" data-toggle="tooltip" title="add to cart"><i class="fa fa-link"> Add to Cart</i></a>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+<a class="btn btn-info" style="font-family:'Arial Rounded MT'; font-size:30px; width:300px; color:white; margin-left:900px; margin-top:100px;" href="@Url.Action("UserViewMainCategory","User")"> << Back to Main Category </a> 

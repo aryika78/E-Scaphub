@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.ProductCategoryMaster>
+@{
+    ViewData["Title"] = "AdminViewMainCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("AdminHome","Admin")">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+    </div>
+</nav>
+
+
+<h2 class="p-1  bg-success  font-weight-normal text-white " style="margin-bottom:15px;">List of Main Category</h2>
+<div style="width:100%; margin-left:150px; margin-bottom:50px;">
+    <div style="margin-top:15px; width:80%;">
+        <a class="btn btn-primary" href="@Url.Action("AdminAddorEditMainCategory","Admin")" style="margin-top:15px; margin-left:10px; margin-bottom:10px; width:160px; color:white;"><i class="fa fa-plus"></i>&nbsp; Add New Main Category</a>
+        <table id="maincategoryDetails" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th hidden="hidden">Catid</th>
+                    <th>Category Name</th>                    
+                    <th>Category Image</th>
+                    <th style="text-align:center;">Sub Categories</th>                    
+                    <th style="text-align:center;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cat in Model)
+                {
+                <tr>
+                    <td hidden="hidden">
+                        @cat.Catid
+                    </td>
+                    <td>
+                        @cat.Catname
+                    </td>
+                    <td>
+                        
+                        @if (!string.IsNullOrWhiteSpace(cat.Catimage))
+                        {
+                            <img height="100" width="100" src="@Url.Content("~/" + cat.Catimage)" alt="No Image" />
+                        }
+                    </td>
+                    <td style="text-align:center;">
+                        <a style="width:80px;" href="@Url.Action("AdminViewSubcategory","Admin", new { CatId = cat.Catid})">Add/View</a>
+                    </td>
+                    <td style="text-align:center;">
+                        <a class="btn btn-success btn-sm" style="width:80px;" href="@Url.Action("AdminAddorEditMainCategory","Admin", new { Catid = cat.Catid })"><i class='fa fa-pencil'></i> Edit</a>
+                        <a class="btn btn-warning btn-sm" style="width:80px;" href="@Url.Action("AdminDeleteMainCategory", "Admin", new { Catid = cat.Catid })" onclick="return confirm('Are sure wants to delete?');"><i class='fa fa-trash'></i> Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#maincategoryDetails').DataTable();
+    });
+</script>
+
+

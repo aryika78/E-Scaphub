@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.ProductCategoryMaster>
+
+@{
+    ViewData["Title"] = "UserViewMainCategory";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("UserHome","User", new { Pid = Convert.ToInt32(TempData["usrId"]) })">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+       <a href="@Url.Action("ViewSellingCartDetails","User")" data-toggle="tooltip" title="View Add To Cart" style="font-size:40px; "><i class="fa fa-shopping-cart"></i></a> 
+    </div>
+</nav>
+
+<style>
+    .zoom {
+        padding: 50px;
+        transition: transform .2s; 
+        margin: 0 auto;
+    }
+
+        .zoom:hover {
+            transform: scale(1.05); 
+        }
+</style>
+
+<link href="~/css/MainCategory.css" rel="stylesheet" />
+<div style="font-size:40px; background-color:antiquewhite; color:blue;">Main Category List</div>
+<div class="demo">
+    <div class="container">
+        <div class="row">
+            @{
+                int flag = 0;
+                string mycolor = "";
+                @foreach (var category in Model)
+                {
+                    <div class="col-md-4 col-sm-6" style="margin-top:30px;">
+                        @{
+                            if (flag == 0)
+                            {
+                                mycolor = "orange";
+                                flag++;
+                            }
+                            else if (flag == 1)
+                            {
+                                mycolor = "blue";
+                                flag++;
+                            }
+                            else
+                            {
+                                mycolor = "purple";
+                                flag = 0;
+                            }
+                        }
+
+                        <div class="pricingTable zoom @mycolor">
+                            <div class="pricingTable-header">
+                                <h3 class="title">@category.Catname</h3>
+                                <span class="sub-title">main Category</span>
+                                
+                            </div>
+                            <div class="price-value">
+                                <div class="value">
+                                    @if (!string.IsNullOrWhiteSpace(category.Catimage))
+                                    {
+                                        <img height="70" width="70" src="@Url.Content("~/" + category.Catimage)" alt="No Image" />
+                                    }
+                                </div>
+                            </div>
+                            <ul class="pricing-content">
+                                <li class="disable">Price are different for </li>
+                                <li>Pickup from Home</li>
+                                <li>Taking to Our Place</li>
+                            </ul>
+                            <a href="@Url.Action("UserSubCateogryDetail","User", new {CatId = category.Catid})" class="pricingTable-signup">Item Details</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

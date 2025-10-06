@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.AreaMaster>
+
+@{
+    ViewData["Title"] = "AdminAreaDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("AdminHome","Admin")">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+    </div>
+</nav>
+<h2 class="p-1  bg-success  font-weight-normal text-white " style="margin-bottom:15px;">List of Area</h2>
+<div style="width:50%; margin-left:350px; margin-bottom:50px;">
+    <div style="margin-top:15px; width:80%;">
+        <a class="btn btn-primary" href="@Url.Action("AdminAddorEditArea","Admin")" style="margin-top:15px; margin-left:10px; margin-bottom:10px; width:160px; color:white;"><i class="fa fa-plus"></i>&nbsp; Add New Area</a>
+        <table id="areaDetails" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th hidden="hidden">Aid</th>
+                    <th>AreaName</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var area in Model)
+                {
+                    <tr>
+                        <td hidden="hidden">
+                            @area.Aid
+                        </td>
+                        <td>
+                            @area.Areaname
+                        </td>
+                        <td>
+                            <a class="btn btn-success btn-sm" style="width:80px;" href="@Url.Action("AdminAddorEditArea","Admin", new { Aid = area.Aid })"><i class='fa fa-pencil'></i> Edit</a>
+                            <a class="btn btn-warning btn-sm" style="width:80px;" href="@Url.Action("AdminDeleteArea", "Admin", new { Aid = area.Aid })" onclick="return confirm('Are sure wants to delete?');"><i class='fa fa-trash'></i> Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#areaDetails').DataTable();
+    });
+</script>
+
+

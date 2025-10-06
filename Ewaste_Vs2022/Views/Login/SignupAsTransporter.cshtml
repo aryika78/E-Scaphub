@@ -1,0 +1,709 @@
+﻿@{
+    ViewData["Title"] = "SignupAsUser";
+    Layout = "~/Views/Shared/_EwasteLayout.cshtml";
+    var QuestionList = (List<Ewaste_Vs2022.Models.QuestionMaster>)ViewBag.QuestionList;
+}
+
+
+<!--header-->
+<div class="w3l-top-header">
+    <header id="site-header" class="fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark stroke">
+                <a class="navbar-brand" href=@Url.Action("Home","Login")>
+                    <span class="fa fa-thumbs-o-up"></span> Ewaste
+                </a>
+                <!-- if logo is image enable this
+                <a class="navbar-brand" href="#index.html">
+                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+                </a> -->
+                <button class="navbar-toggler  collapsed bg-gradient" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
+                    <span class="navbar-toggler-icon fa icon-close fa-times"></span>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02" style="margin-left:300px;">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href=@Url.Action("Home","Login")>Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item @@about-active">
+                            <a class="nav-link effect-3" href=@Url.Action("Login","Login")>Login</a>
+                        </li>
+                        <li class="nav-item @@ChangePassword-active">
+                            <a class="nav-link effect-3" href=@Url.Action("ChangePassword","Login")>ChangePassword</a>
+                        </li>
+
+                        <li class="nav-item @@about-active">
+                            <a class="nav-link effect-3" href=@Url.Action("About","Login")>About</a>
+                        </li>
+                        <li class="nav-item @@services-active">
+                            <a class="nav-link effect-3" href=@Url.Action("Services","Login")>Services</a>
+                        </li>
+                        <li class="nav-item @@contact-active">
+                            <a class="nav-link effect-3" href=@Url.Action("Contact","Login")>Contact</a>
+                        </li>
+                    </ul>
+                    <!-- Example single danger button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Signup
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="@Url.Action("SignupAsUser","Login")">As User</a>
+                            <a class="dropdown-item" href="@Url.Action("SignupAsTransporter","Login")">As Transporter</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+</div>
+<!--/header-->
+@*to Preview Image Before Upload -- start*@
+<style type="text/css">
+    .thumb-image {
+        float: left;
+        width: 100px;
+        position: relative;
+        padding: 5px;
+    }
+</style>
+@*to Preview Image Before Upload -- end*@
+
+<style>
+    label.error.fail-alert {
+        border: 2px solid red;
+        border-radius: 4px;
+        line-height: 1;
+        padding: 10px;
+        background: #ffe6eb;
+        color: red;
+        width:250px;
+        /*margin-left:150px;*/
+        /*margin-top:30px;*/
+    }
+</style>
+
+@*to Preview Image Before Upload -- start*@
+<style type="text/css">
+    .thumb-image {
+        float: left;
+        width: 100px;
+        position: relative;
+        padding: 5px;
+    }
+</style>
+@*to Preview Image Before Upload -- end*@
+
+
+@*/////////////File Library Section starts *@
+@*===>always declare library files in head section of layout page*@
+<script src="~/scripts/notify.min.js"></script> @*downloaded from https://notifyjs.com/*@
+@*///////////File Library Section ends *@
+
+@*/////////Javascript Section starts*@
+<script type="text/javascript">
+    $(function () {
+        $("input[type=text]").first().focus();
+    });
+
+    function focusanstxt() {
+        document.getElementById("Panswer").focus();
+    }
+    function focusphonetxt(){
+        document.getElementById("Pphone").focus();
+    }
+
+</script>
+@*/////////Javascript Section ends*@
+
+
+@*////////////Html Section starts*@
+<div class="text-success fa" style="font-size:50px;margin-top:50px;">
+    &nbsp; <span style="color:red;"> </span>Transporter Signup
+</div>
+
+<div class="bg-success" style="height:3px;"></div>
+<div class="text-success" style="font-family:'Arial Rounded MT'; margin-left:50px;">
+    @using (Html.BeginForm("SignupAsTransporter", "Login", FormMethod.Post, new { id = "suVal", enctype = "multipart/form-data" }))
+    {
+        <div class="mt-3 mb-3 row">
+            <label for="Pname" class="ml-4 col-sm-1 col-form-label">Name</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Pname" name="Pname" placeholder="Please Enter Name" autofocus>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 row">
+            <label for="Paddress" class="ml-4 col-sm-1 col-form-label">Address</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Paddress" name="Paddress" placeholder="Please Enter Address">
+            </div>
+        </div>
+        <div class="mt-3 mb-3 row">
+            <label for="Pdob" class="ml-4 col-sm-1 col-form-label">Birth Date</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Pdob" name="Pdob" placeholder="Please Enter Date of Birth">
+            </div>
+        </div>
+        <div class="mt-3 mb-3 row">
+            <label for="Pgender" class="ml-4 col-sm-1 col-form-label">Gender</label>
+            <div class="col-sm-6">
+                <select name="Pgender" id="Pgender" class="form-control ml-2" onchange="focusphonetxt()">
+                    <option value="" class="form-control" selected="selected" >Select Gender</option>
+                    <option value="Male" class="form-control">Male</option>
+                    <option value="Female" class="form-control">Female</option>
+                </select>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 row">
+            <label for="Pphone" class="ml-4 col-sm-1 col-form-label">Phone</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Pphone" name="Pphone" placeholder="Please Enter Phone Number">
+            </div>
+        </div>
+
+        <div class="mt-3 mb-3 row">
+            <label for="Pemail" class="ml-4 col-sm-1 col-form-label">Email</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Pemail" name="Pemail" placeholder="Please Enter Email-Id">
+            </div>
+        </div>
+        <div class="mt-3 mb-3 row">
+            <label for="Ppassword" class="ml-4 col-sm-1 col-form-label">Password</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Ppassword" name="Ppassword" placeholder="Please Enter Password">
+            </div>
+        </div>
+        <div class="mt-3 mb-3 row">
+            <label for="Ppassword" class="ml-4 col-sm-1 col-form-label">Vehicle Number</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Pvehiclenumber" name="Pvehiclenumber" placeholder="Please Enter Vehicle Number">
+            </div>
+        </div>
+
+        <div class="mt-3 mb-3 row">
+            <label for="Pqlist" class="ml-4 col-sm-1 col-form-label">Select Question</label>
+            <div class="col-sm-6">
+                <select name="Pqlist" id="Pqlist" class="form-control ml-2" onchange="focusanstxt()">
+                    <option value="" class="form-control" selected="selected">Select Question</option>
+                    @foreach (var res in QuestionList)
+                    {
+                        <option value="@res.Qid">@res.QuestionText</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="mt-3 mb-3 row">
+            <label for="Panswer" class="ml-4 col-sm-1 col-form-label">Answer</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control ml-2" id="Panswer" name="Panswer" placeholder="Please Enter Your Answer">
+            </div>
+        </div>
+        <div class="mt-3 row">
+         <div id="iiImg">
+            @*<input type="file" name="file" multiple="multiple" accept="image/*" id="file" />*@
+            <input type="button" onclick="document.getElementById('file').click()" value="select image">
+            <input type="file" id="file" name="file" multiple="multiple" accept="image/*" style="display:none" />            
+            <div id="image-holder">
+            </div>
+        </div>
+        </div>
+         <div class="mt-3 row">
+        <div class="col-sm-6"></div>
+        <div>
+        <input type="submit" id="submit" value="Signup" style="margin-left:650px;"  class="btn btn-success"  />
+        </div>
+    </div>
+    }
+</div>
+
+@*////////////Html Section ends*@
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+@*////////////Jquery Validation plugin Section starts*@
+@section suValidation
+{
+<script type="text/javascript">
+    $(document).ready(function () {
+        @*to Preview Image Before Upload -- start*@
+                var countFiles;
+                countFiles = 0;
+                //debugger;
+            $("#file").on('change', function () {
+                //Get count of selected files
+                flag = 1;
+                countFiles = $(this)[0].files.length;
+                var imgPath = $(this)[0].value;
+                var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+                var image_holder = $("#image-holder");
+                image_holder.empty();
+                if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                    if (typeof (FileReader) != "undefined") {
+                        //loop for each file selected for uploaded.
+                        for (var i = 0; i < countFiles; i++) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $("<img />", {
+                                    "src": e.target.result,
+                                    "class": "thumb-image"
+                                }).appendTo(image_holder);
+                            }
+                            image_holder.show();
+                            reader.readAsDataURL($(this)[0].files[i]);
+                        }
+                    } else {
+                        alert("This browser does not support FileReader.");
+                    }
+                } else {
+                    alert("Pls select only images");
+                }
+            });
+
+        @*to Preview Image Before Upload -- end*@
+
+
+         //to check if image is selected or not -- starts
+            $("#submit").click(function (e) {
+                    if ($("#suVal").valid()) {
+                        if (countFiles == 0) {
+                            alert('Please Select Image...');
+                            e.preventDefault();
+                        }
+                    }
+            });
+            //to check if image is selected or not -- ends
+
+        $("#suVal").validate({
+            errorClass: "error fail-alert",   
+            rules: {
+                Pname: "required",
+                Paddress: {
+                    required:true
+                },
+                Pdob: {
+                    required:true
+                },
+                Pgender: {
+                    required:true
+                },
+                Pphone: {
+                    required: true,
+                    number: true
+                },
+                Pemail: {
+                    required: true,
+                    email: true
+                },
+                Ppassword:{
+                    required:true
+                },
+                Pcpassword: {
+                    required: true,
+                    equalTo: "#Ppassword"
+                },
+                Pvehiclenumber: {
+                    required:true
+                },
+                Pqlist: {
+                    required:true
+                },
+                Panswer: {
+                    required:true
+                }
+            },
+            messages: {
+                Pname: {
+                    required: 'Please Enter FirstName',
+                    focus() { }
+                },
+                Paddress: {
+                    required: 'Please Enter Your Address',
+                    focus() { }
+                },
+                Pdob: {
+                    required: 'Please Enter Date of birth',
+                    focus() { }
+                },
+                Pgender: {
+                    required: 'Please Select Gender',
+                    focus() { }
+                },
+                Pphone: {
+                    required: 'Please Enter Phone',
+                    number: 'Please Enter Numeric value',
+                    focus() { }
+                },
+                Pemail: {
+                    required: 'Please Enter Email Address',
+                    email: 'please entern valid email address',
+                    focus() { }
+                },
+                Ppassword:{
+                    required: 'Please Enter Password',
+                    focus() { }
+                },
+                Pcpassword: {
+                    required: 'Please Enter Confirm Password',
+                    equalTo: "Password and Confirm Password do not match",
+                    focus() { }
+                },                
+                Pvehiclenumber: {
+                    required: 'Please Enter Vehicle Number'
+                },
+                Pqlist: {
+                    required: 'Please Select Question'
+                },
+                Panswer: {
+                    required: 'Please Specify Answer...'
+                }
+            },
+            errorPlacement:function(error,element){
+                error.insertAfter(element.parent());
+            }
+        })
+
+    });
+
+
+
+</script>
+
+}
+@*////////////Jquery Validation plugin Section ends*@
+
+
+
+
+<footer>
+    <!-- footer -->
+    <section class="w3l-footer">
+        <div class="w3l-footer-16-main py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 column">
+                        <div class="row">
+                            <div class="col-md-8 column">
+                                <h3>Contact</h3>
+
+                                <div class="ad-text-inf">
+                                    <p>
+                                        <span class="color-ubd">Address :</span>
+                                        Deal, 433 California St, Suite 300 San Francisco,
+                                        CA 94104, USA
+                                    </p>
+                                </div>
+                                <div class="ad-text-inf">
+                                    <p><span class="color-ubd">Email :</span> <a href="mailto:mailid@mail.com">mailid@mail.com</a></p>
+                                </div>
+                                <div class="ad-text-inf">
+                                    <p><span class="color-ubd">Phone :</span> <a href="tel:+44-99-55-42">+44-99-55-42</a></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 column mt-md-0 mt-4">
+                                <h3>Company</h3>
+                                <ul class="footer-gd-16">
+                                    <li><a href="~/Template/assets/index.html">Home</a></li>
+                                    <li><a href="~/Template/assets/about.html">About Us</a></li>
+                                    <li><a href="~/Template/assets/services.html">Services</a></li>
+                                    <li><a href="#blog.html">Blog</a></li>
+                                    <li><a href="~/Template/assets/contact.html">Contact Us</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 column column3 mt-lg-0 mt-5">
+                        <h3>Latest Posts</h3>
+                        <ul class="list-unstyled d-flex flex-wrap">
+                            <li class="">
+                                <div class="row">
+                                    <a class="col-md-5 col-4" href="#blog-single.html">
+                                        <img class="rounded img-fluid img-responsive" src="~/Template/assets/images/b3.jpg" alt="image">
+                                    </a>
+                                    <div class="col pl-0">
+                                        <a class="footer-small-text" href="#blog-single.html">Lorem ipsum dolor sit amet adipiscin elit</a>
+                                        <div class="text-sub-small">Mar 31st</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mt-md-0 mt-2">
+                                <div class="row my-2 my-md-3">
+                                    <a class="col-md-5 col-4" href="#blog-single.html">
+                                        <img class="rounded img-fluid img-responsive" src="~/Template/assets/images/b2.jpg" alt="image">
+                                    </a>
+                                    <div class="col pl-0">
+                                        <a class="footer-small-text" href="#blog-single.html">Cras at nunc sagittis, suscipit dolor</a>
+                                        <div class="text-sub-small">Apr 03rd</div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-6 column column4 mt-lg-0 mt-5">
+                        <h3>Subscribe </h3>
+                        <div class="end-column">
+                            <h4>Get latest updates and offers.</h4>
+                            <form action="#" class="subscribe" method="post">
+                                <input type="email" name="email" placeholder="Email Address" required="">
+                                <button><span class="fa fa-paper-plane" aria-hidden="true"></span></button>
+                            </form>
+                            <p>Subscribe To Stay Informed On Services, Offers And Discounts.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex below-section justify-content-between align-items-center pt-4 mt-5">
+                    <div class="columns text-lg-left text-center">
+                        <p>
+                            &copy; 2020 Deal. All rights reserved. Design by <a href="https://w3layouts.com/" target="_blank">
+                                W3Layouts
+                            </a>
+                        </p>
+                    </div>
+                    <div class="columns-2 mt-lg-0 mt-3">
+                        <ul class="social">
+                            <li>
+                                <a href="#facebook"><span class="fa fa-facebook" aria-hidden="true"></span></a>
+                            </li>
+                            <li>
+                                <a href="#linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span></a>
+                            </li>
+                            <li>
+                                <a href="#twitter"><span class="fa fa-twitter" aria-hidden="true"></span></a>
+                            </li>
+                            <li>
+                                <a href="#google"><span class="fa fa-google-plus" aria-hidden="true"></span></a>
+                            </li>
+                            <li>
+                                <a href="#github"><span class="fa fa-github" aria-hidden="true"></span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- move top -->
+        <button onclick="topFunction()" id="movetop" title="Go to top">
+            <span class="fa fa-angle-up"></span>
+        </button>
+        <script>
+            // When the user scrolls down 20px from the top of the document, show the button
+            window.onscroll = function () {
+                scrollFunction()
+            };
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    document.getElementById("movetop").style.display = "block";
+                } else {
+                    document.getElementById("movetop").style.display = "none";
+                }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+        </script>
+        <!-- //move top -->
+        <script>
+            $(function () {
+                $('.navbar-toggler').click(function () {
+                    $('body').toggleClass('noscroll');
+                })
+            });
+        </script>
+    </section>
+    <!-- //footer -->
+</footer>
+
+<!-- jQuery -->
+<script src="~/Template/assets/js/jquery-3.4.1.slim.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<!-- Template JavaScript -->
+<!-- stats number counter-->
+<script src="~/Template/assets/js/jquery.waypoints.min.js"></script>
+<script src="~/Template/assets/js/jquery.countup.js"></script>
+<script>
+    $('.counter').countUp();
+</script>
+<!-- //stats number counter -->
+
+<script src="~/Template/assets/js/jquery.magnific-popup.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.popup-with-zoom-anim').magnificPopup({
+            type: 'inline',
+
+            fixedContentPos: false,
+            fixedBgPos: true,
+
+            overflowY: 'auto',
+
+            closeBtnInside: true,
+            preloader: false,
+
+            midClick: true,
+            removalDelay: 300,
+            mainClass: 'my-mfp-zoom-in'
+        });
+
+        $('.popup-with-move-anim').magnificPopup({
+            type: 'inline',
+
+            fixedContentPos: false,
+            fixedBgPos: true,
+
+            overflowY: 'auto',
+
+            closeBtnInside: true,
+            preloader: false,
+
+            midClick: true,
+            removalDelay: 300,
+            mainClass: 'my-mfp-slide-bottom'
+        });
+    });
+</script>
+
+<script src="~/Template/assets/js/owl.carousel.js"></script>
+
+<!-- testimonials for owlcarousel -->
+<script>
+    $(document).ready(function () {
+        $('.owl-one').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: false,
+            responsiveClass: true,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            autoplaySpeed: 1000,
+            autoplayHoverPause: false,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false
+                },
+                480: {
+                    items: 1,
+                    nav: false
+                },
+                667: {
+                    items: 1,
+                    nav: false
+                },
+                1000: {
+                    items: 1,
+                    nav: false
+                }
+            }
+        })
+    })
+</script>
+<!-- //testimonials script for owlcarousel -->
+<!-- for blog carousel slider -->
+<script>
+    $(document).ready(function () {
+        $('.owl-two').owlCarousel({
+            stagePadding: 20,
+            margin: 15,
+            nav: false,
+            loop: false,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 3
+                }
+            }
+        })
+    })
+</script>
+<!-- //for blog carousel slider -->
+
+<script>
+    var lFollowX = 0,
+        lFollowY = 0,
+        x = 0,
+        y = 0,
+        friction = 1 / 30;
+
+    function animate() {
+        x += (lFollowX - x) * friction;
+        y += (lFollowY - y) * friction;
+
+        translate = 'translate(' + x + 'px, ' + y + 'px) scale(1.1)';
+
+        $('.banner-image').css({
+            '-webit-transform': translate,
+            '-moz-transform': translate,
+            'transform': translate
+        });
+
+        window.requestAnimationFrame(animate);
+    }
+
+    $(window).on('mousemove click', function (e) {
+
+        var lMouseX = Math.max(-100, Math.min(100, $(window).width() / 2 - e.clientX));
+        var lMouseY = Math.max(-100, Math.min(100, $(window).height() / 2 - e.clientY));
+        lFollowX = (20 * lMouseX) / 100; // 100 : 12 = lMouxeX : lFollow
+        lFollowY = (10 * lMouseY) / 100;
+
+    });
+
+    animate();
+</script>
+
+<!-- disable body scroll which navbar is in active -->
+<script>
+    $(function () {
+        $('.navbar-toggler').click(function () {
+            $('body').toggleClass('noscroll');
+        })
+    });
+</script>
+<!--/MENU-JS-->
+<script>
+    $(window).on("scroll", function () {
+        var scroll = $(window).scrollTop();
+
+        if (scroll >= 80) {
+            $("#site-header").addClass("nav-fixed");
+        } else {
+            $("#site-header").removeClass("nav-fixed");
+        }
+    });
+
+    //Main navigation Active Class Add Remove
+    $(".navbar-toggler").on("click", function () {
+        $("header").toggleClass("active");
+    });
+    $(document).on("ready", function () {
+        if ($(window).width() > 991) {
+            $("header").removeClass("active");
+        }
+        $(window).on("resize", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+        });
+    });
+</script>
+<!--//MENU-JS-->
+<!-- Bootstrap JS -->
+<script src="~/Template/assets/js/bootstrap.min.js"></script>
+
+

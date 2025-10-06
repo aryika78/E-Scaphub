@@ -1,0 +1,95 @@
+﻿@model Ewaste_Vs2022.Models.ProductSubCategory
+@{
+    ViewData["Title"] = "UserSCItemAddtocart";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("UserHome","User", new { Pid = Convert.ToInt32(TempData["usrId"]) })">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+        <a href="@Url.Action("ViewSellingCartDetails","User")" data-toggle="tooltip" title="View Add To Cart" style="font-size:40px; "><i class="fa fa-shopping-cart"></i></a>
+    </div>
+</nav>
+<link href="~/css/SCitemAddtocart.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(function () {
+        $("input[type=text]").first().focus();
+    });
+</script>
+
+
+<h2 style="background-color:greenyellow; color:rosybrown; margin-top:15px; margin-bottom:15px; margin-left:15px;">
+    Add to cart
+</h2>
+
+@using (Html.BeginForm("UserSCItemAddtocartfinal", "User", FormMethod.Post, new { id = "addtocartval" }))
+{
+    <div class="container" style="margin-bottom:30px;">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="box">
+                    @if (!string.IsNullOrWhiteSpace(Model.SCimage))
+                    {
+                        <img height="70" width="70" src="@Url.Content("~/" + Model.SCimage)" alt="No Image" />
+                    }
+                    <div>
+                        <input type="hidden" id="SCid" name="SCid" value="@Model.SCid" />
+                    </div>
+                    <div class="box-content">
+                        <h3 class="title">Category Name : @TempData["catname"]</h3>
+                        <span class="post">Item Name : @Model.SCname</span>
+                    </div>
+                    <ul class="icon">
+                        <li><a href="#"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#"><i class="fa fa-link"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8" style="margin-top:50px; color:red;">
+                <div class="row" style="height:50px; font-size:30px;">
+                    <span style="color:red"><b>Description : </b></span> <div style="color:green; "> @Model.SCdesc</div>
+                </div>
+                <div class="row" style="margin-top:60px;">
+                    <input class="form-control" type="text" id="txtqty" name="txtqty" placeholder="Please enter Qunatity or Length of item" />
+                </div>
+                <div class="row" style="margin-top:15px;">
+                    <input type="submit" id="submit" value="&#xf011 Add to cart" class="btn btn-danger fa" style="width:150px; margin-left:600px;" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<a class="btn btn-info" style="font-family:'Arial Rounded MT'; font-size:30px; width:300px; color:white; margin-left:80px;" href="@Url.Action("UserSubCateogryDetail","User", new { CatId = Model.Catid})"> << Back to Sub Category </a>
+
+@section addtocartValidation
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#addtocartval").validate({
+                rules: {
+                    txtqty: {
+                        required: true,
+                        number: true
+                    }
+                },
+                messages: {
+                    txtqty: {
+                        required: 'Please Enter Quantity or Length of item',
+                        number: 'Please Enter numeric value',
+                        focus() { }
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            })
+        });
+
+    </script>
+
+}

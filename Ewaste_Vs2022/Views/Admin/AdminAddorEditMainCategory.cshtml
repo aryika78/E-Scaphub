@@ -1,0 +1,175 @@
+﻿@model Ewaste_Vs2022.Models.ProductCategoryMaster
+@{
+    ViewData["Title"] = "AdminAddorEditMainCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    label.error.fail-alert {
+        border: 2px solid red;
+        border-radius: 4px;
+        line-height: 1;
+        padding: 10px;
+        background: #ffe6eb;
+        color: red;
+        width:250px;
+        /*margin-left:150px;*/
+        /*margin-top:30px;*/
+    }
+</style>
+
+@*/////////Javascript Section starts*@
+<script type="text/javascript">
+    $(function () {
+        $("input[type=text]").first().focus();
+        $("input[type=text]").first().select();
+    });
+</script>
+@*/////////Javascript Section ends*@
+
+@*////////////Html Section starts*@
+
+<div class="bg-info" style="font-family:'Arial Rounded MT'; color:white; font-size:50px;">
+    &nbsp; Add/Edit Main Category
+</div>
+
+<div class="bg-warning" style="height:3px;"></div>
+
+<div class="bg-light">
+    <div class="text-primary" style="font-family:'Arial Rounded MT'; margin-left:50px;">
+        @using (Html.BeginForm("AdminAddorEditMainCategory", "Admin", FormMethod.Post, new { id = "maincatVal", enctype = "multipart/form-data" }))
+        {
+            <input type="hidden" id="Catid" name="Catid" value="@Model.Catid" />
+            @*The values of form elements including type='hidden' are submitted to the server when the form is posted.*@
+            <div style="height:15px;"></div>
+            <div class="text-primary" style="font-size:20px;margin-top:30px;">Main Category Name</div>
+
+            <div class="mt-3 mb-3 row">
+                 <label for="Catname" class="ml-4 col-sm-1 col-form-label">CateName</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control ml-2" id="Catname" name="Catname" value="@Model.Catname" placeholder="Enter Main Category Name" autofocus>
+                </div>
+            </div>
+            <div style="margin-top:30px;">
+                <input type="button" class="btn btn-primary" onclick="document.getElementById('Catimage').click()" value="select Main Category Image">
+                <input type="file" id="Catimage" name="Catimage" multiple="multiple" accept="image/*" style="display:none" />
+                <div id="image-holder">
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Catimage))
+                    {
+                        <img height="100" width="100" src="@Url.Content("~/" + Model.Catimage)" alt="No Image" />
+                    }
+                </div>
+            </div>
+
+
+
+            <div class="row" style="margin-top:30px;margin-bottom:30px;">
+                @if (Convert.ToString(TempData["btn"]) == "Add")
+                {
+                    <input type="submit" id="submit" value="&#xf234 Add Main Category" class="btn btn-success fa" style="width:250px; margin-left:330px;" />
+                }
+                else
+                {
+                    <input type="submit" id="btnEdit" value="&#xf234 Edit Main Category" class="btn btn-success fa" style="width:250px; margin-left:330px;" />
+                }
+
+            </div>
+        }
+    </div>
+</div>
+@*////////////Html Section ends*@
+
+
+@*////////////Jquery Validation plugin Section starts*@
+@section mainCatValidation
+    {
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        @* to Preview Image Before Upload-- start *@
+            var countFilesImg;
+        countFilesImg = 0;
+        debugger;
+        $("#Catimage").on('change', function () {
+            //Get count of selected files
+            flag = 1;
+            countFilesImg = $(this)[0].files.length;
+            var imgPath = $(this)[0].value;
+            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            var image_holder = $("#image-holder");
+            image_holder.empty();
+            if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < countFilesImg; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("<img />", {
+                                "src": e.target.result,
+                                "class": "img-thumbnail",
+                                "width": "200",
+                                "height": "200"
+                            }).appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL($(this)[0].files[i]);
+                    }
+                } else {
+                    alert("This browser does not support FileReader.");
+                }
+            } else {
+                alert("Pls select only images");
+            }
+        });
+
+        @* to Preview Image Before Upload-- end *@
+
+        //to check if image is selected or not for add-- starts
+        $("#submit").click(function (e) {
+            if ($("#maincatVal").valid()) {                
+                if (countFilesImg == 0) {
+                    alert('Please Select Photo...');
+                    e.preventDefault();
+                }
+            }
+        });
+        //to check if image is selected or not for add-- ends
+
+        //to check if image is selected or not for edit-- starts
+        $("#btnEdit").click(function (e) {
+            if ($("#maincatVal").valid()) {
+                //if (countFilesImg == 0) {
+                //    alert('Please Select Photo...');
+                //    e.preventDefault();
+                //}
+                //if (countFilesLic == 0) {
+                //    alert('Please Select Licence...');
+                //    e.preventDefault();
+                //}
+            }
+        });
+        //to check if image is selected or not for edit-- ends
+
+
+        $("#maincatVal").validate({
+             errorClass: "error fail-alert",
+            rules: {
+                Catname: "required"
+            },
+            messages: {
+                Catname: {
+                    required: 'Please Enter Category name',
+                    focus() { }
+                },
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        })
+    });
+
+</script>
+}
+@*////////////Jquery Validation Section ends*@
+

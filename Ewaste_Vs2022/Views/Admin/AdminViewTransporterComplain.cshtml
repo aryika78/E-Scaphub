@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.ComplainMaster>
+@{
+    ViewData["Title"] = "AdminViewTransporterComplain";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var PersonList = (List<Ewaste_Vs2022.Models.PersonMaster>)ViewBag.PersonList;
+}
+
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("AdminHome","Admin")">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+    </div>
+</nav>
+
+<div style="margin-top:15px; margin-bottom:50px; margin-left:40px; width:80%;">
+    <div style="width:80%; margin-top:100px;">
+        <h2 class="p-1  bg-success  font-weight-normal text-white " style="margin-bottom:15px;">Transporter Complain Details</h2>
+        <table id="compdetails" class="display" style="width:100%">
+            <thead>
+                <tr>                    
+                    <th>Name</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                    @foreach (var res in Model)
+                    {
+                      
+                            <tr>
+                    
+                                
+                                @foreach (var per in PersonList)
+                                {
+                                    if (per.Pid == res.Pid)
+                                    {
+                                        <td>        
+                                            @per.Pname
+                                        </td>      
+                                        <td>@res.Cdetails</td>
+                                    }
+                                }
+                                
+                                
+                            </tr>
+                     }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#compdetails').DataTable({
+            "lengthMenu": [[3, 5, 7, 10], [3, 5, 7, 10]],
+            "order": [[1, "asc"]]
+        });
+    });
+</script>
+
+
+
+
+

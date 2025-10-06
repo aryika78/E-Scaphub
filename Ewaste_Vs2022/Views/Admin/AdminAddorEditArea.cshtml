@@ -1,0 +1,115 @@
+﻿@model Ewaste_Vs2022.Models.AreaMaster
+
+@{
+    ViewData["Title"] = "AdminAddorEditArea";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="~/js/notify.min.js"></script>
+
+@*/////////Javascript Section starts*@
+<script type="text/javascript">
+    $(function () {
+        $("input[type=text]").first().focus();
+        $("input[type=text]").first().select();
+    });
+</script>
+@*/////////Javascript Section ends*@
+
+<style>    
+    label.error.fail-alert {
+border: 2px solid red;
+border-radius: 4px;
+line-height: 1;
+padding: 10px;
+background: #ffe6eb;
+color:red;
+/*margin-left:150px;*/
+/*margin-top:30px;*/
+}
+</style>
+@*////////////Html Section starts*@
+
+<div class="bg-info" style="font-family:'Arial Rounded MT'; color:white; font-size:50px;">
+    &nbsp; Add/Edit Area
+</div>
+
+<div class="bg-warning" style="height:3px;"></div>
+
+<div class="bg-light">
+    <div class="text-primary" style="font-family:'Arial Rounded MT'; margin-left:50px;">
+        @using (Html.BeginForm("AdminAddorEditArea", "Admin", FormMethod.Post, new { id = "aeAVal" }))
+        {
+            <input type="hidden" id="Aid" name="Aid" value="@Model.Aid" />
+            @*The values of form elements including type='hidden' are submitted to the server when the form is posted.*@
+            @if (TempData["areaname"] == null)
+            {
+                <div style="height:15px;"></div>
+                <div class="text-primary" style="font-size:20px;margin-top:30px;">Area Name</div>
+                <div class="row">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control col-lg-4" placeholder="Enter Area Name" id="Areaname" name="Areaname" value="@Model.Areaname" type="text" />
+                </div>
+            }
+            else
+            {
+                <div style="height:15px;"></div>
+                <div class="text-primary" style="font-size:20px;margin-top:30px;">Area Name</div>
+                <div class="row">
+                    &nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control col-lg-4" placeholder="Enter Area Name" id="Areaname" name="Areaname" value="@TempData["areaname"]" type="text" />
+                </div>
+            }
+
+            <div class="row" style="margin-top:30px;">
+                <input type="submit" id="submit" value="Submit" class="btn btn-success" style="width:100px; margin-left:300px;" />
+            </div>
+            <div class="row">
+                @if (TempData["areaexists"] != null)
+                {
+                    <script type="text/javascript">
+                        $.notify("Area allready exists...Please enter another area....", "Failure");
+                        $(function () {
+                            $("input[type=text]").first().focus();
+                            $("input[type=text]").first().select();
+                        });
+                    </script>
+
+                }
+
+            </div>
+        }
+    </div>
+</div>
+@*////////////Html Section ends*@
+
+
+@*////////////Jquery Validation plugin Section starts*@
+@section areaValidation
+    {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#aeAVal").validate({   
+                errorClass: "error fail-alert",
+                rules: {
+                    Areaname: {
+                        required: true
+                    }
+                },
+                messages: {
+                    Areaname: {
+                        required: 'Please Enter Area name',
+                        focus() { }
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.parent());
+                }
+            })
+        });
+
+    </script>
+}
+@*////////////Jquery Validation Section ends*@
+
+
+

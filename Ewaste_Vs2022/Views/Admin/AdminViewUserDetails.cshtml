@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.PersonMaster>
+
+@{
+    ViewData["Title"] = "AdminViewUserDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("AdminHome","Admin")">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+    </div>
+</nav>
+
+<div style="margin-top:15px; margin-bottom:50px; margin-left:40px; width:80%;">
+    <div style="width:80%; margin-top:100px;">
+        <h2 class="p-1  bg-success  font-weight-normal text-white " style="margin-bottom:15px;">User Details</h2>
+
+        <table id="userdetails" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Pid</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Dob</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                <tr>
+                    <td>
+                        @user.Pid
+                    </td>
+                    <td>
+                        @user.Pname
+                    </td>
+                    <td>
+                        @user.Paddress
+                    </td>
+                    <td>
+                        @user.Pdob
+                    </td>
+                    <td>
+                        @user.Pphone
+                    </td>
+                    <td>
+                        @user.Pemail
+                    </td>
+                </tr>
+
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#userdetails').DataTable();
+    });
+</script>
+
+
+

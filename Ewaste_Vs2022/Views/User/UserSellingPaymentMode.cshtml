@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewData["Title"] = "UserSellingPaymentMode";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h1 style="margin-bottom:50px;">Payment method</h1>
+
+@using (Html.BeginForm("UserSellingPaymentMode", "User", FormMethod.Post))
+{
+    <div class="row" style="margin-left:200px; margin-bottom:50px;">
+        <div class="col-md-3" style="background-color:greenyellow;">
+            <div>
+
+                <h4>Cash on delivery</h4>
+
+                <p>You pay when you get it.</p>
+
+                <div>
+                    @Html.RadioButton("Method", "cash", new { @checked = "checked", id = "cash" })
+                    @Html.Label("cash", "Cash On delivery")
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" style="background-color:yellow;">
+            <div>
+                <h4>Payment gateway</h4>
+                <p>VISA and Mastercard only.</p>
+                <div>
+                    @Html.RadioButton("Method", "online", new { id = "online" })
+                    @Html.Label("online", "Online Payment")
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div style="margin-top:30px;margin-left:100px;font-size:30px;margin-bottom:30px;">
+                <input type="submit" id="submit" value="&#xf1b9 Next" class="btn btn-warning fa" style="width:150px;" />
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-left:200px; margin-bottom:50px;">
+        <div class="col-md-6">
+            <div>
+                <div>
+                    <div id="onlinePayment">
+                        <div>
+                            <div style="margin-top:15px; background-color:lightgray;">
+                                <h3 style="height:40px;">Online Payment</h3>
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Card NO:")
+                                @Html.TextBox("Card", "", new { id = "Card", @class = "form-control", placeholder = "xxxx xxxx xxxx xxxx" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("Exp Date:")
+                                @Html.TextBox("EDate", "", new { id = "EDate", @class = "form-control", placeholder = "xx/xx" })
+                            </div>
+                            <div class="form-group">
+                                @Html.Label("CVC NO")
+                                @Html.TextBox("CVV", "", new { id = "CVV", @class = "form-control", placeholder = "xxx" })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+}
+
+
+
+@section PaymentMode
+{    
+    <script src="~/js/jquery.mask.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            debugger;
+            var e = document.getElementById("onlinePayment");
+            e.style.display = 'none';
+            var rbchk;
+            $("#cash").on("click", function () {
+                rbchk = "Cash";                
+                $("#onlinePayment").hide();
+            });
+
+            $("#online").on("click", function () {
+                rbchk = "online";                
+                $("#onlinePayment").show();
+            });
+
+            $("#Card").mask('9999-9999-9999-9999');
+            $("#EDate").mask('99/99');
+            $("#CVV").mask('999');
+        });
+    </script>
+}

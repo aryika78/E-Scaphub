@@ -1,0 +1,149 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_EwasteLayout.cshtml";
+}
+
+<script src="~/js/notify.min.js"></script>
+
+
+<style>    
+    label.error.fail-alert {
+border: 2px solid red;
+border-radius: 4px;
+line-height: 1;
+padding: 10px;
+background: #ffe6eb;
+color:red;
+width:250px;
+}
+</style>
+
+<script type="text/javascript">
+    $(function () {
+        $("input[type=text]").first().focus();
+    });   
+</script>
+
+
+<!--header-->
+<div class="w3l-top-header">
+    <header id="site-header" class="fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-dark stroke">
+                <a class="navbar-brand" href=@Url.Action("Home","Login")>
+                    <span class="fa fa-thumbs-o-up"></span> Ewaste
+                </a>             
+                <button class="navbar-toggler  collapsed bg-gradient" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                        aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
+                    <span class="navbar-toggler-icon fa icon-close fa-times"></span>
+
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item @@home-active">
+                            <a class="nav-link" href=@Url.Action("Home","Login")>Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link effect-3" href=@Url.Action("Login","Login")>Login</a>
+                        </li>
+                        <li class="nav-item @@services-active">
+                            <a class="nav-link effect-3" href=@Url.Action("ChangePassword","Login")>ChangePassword</a>
+                        </li>
+                        <li class="nav-item @@about-active">
+                            <a class="nav-link effect-3" href=@Url.Action("About","Login")>About</a>
+                        </li>
+                        <li class="nav-item @@services-active">
+                            <a class="nav-link effect-3" href=@Url.Action("Services","Login")>Services</a>
+                        </li>
+                        <li class="nav-item @@contact-active">
+                            <a class="nav-link effect-3" href=@Url.Action("Contact","Login")>Contact</a>
+                        </li>
+                    </ul>
+                    <div class="phone">
+                        <a href="tel:+65-123-56-78"><span class="fa fa-phone" aria-hidden="true"></span> +91-9313894476</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+</div>
+<!--/header-->
+
+<div class="text-warning mt-5 ml-5" style="font-size:50px;">
+    Login
+</div>
+<div class="bg-warning" style="height:3px;"></div>
+@using (Html.BeginForm("Login", "Login", FormMethod.Post, new { id = "loginval" }))
+{   
+    <div class="mt-3 mb-3 row">
+        <label for="Pemail" class="ml-4 col-sm-1 col-form-label">Email</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control ml-2" id="Pemail" name="Pemail" placeholder="Please Enter Email Address" autofocus>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="Ppassword" class="ml-4 col-sm-1 col-form-label">Password</label>
+        <div class="col-sm-6">
+            <input type="password" class="form-control ml-2" id="Ppassword" placeholder="Please Enter Password" name="Ppassword">
+        </div>
+        
+    </div>
+    <div class="mt-3 row">
+        <div class="ml-4 col-sm-1"></div>
+        <div>
+        <input type="submit" id="submit" style="margin-left:700px;" value="Login" class="btn btn-success fa"  />
+        </div>
+    </div>
+    <div class="row">
+        @if (TempData["ErrMsg"] != null)
+        {
+            <script type="text/javascript">
+                $.notify("Invalid Email or Password....", "Failure");
+                </script>
+        }
+
+    </div>
+}
+
+
+@section loginValidation
+    {
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#loginval").validate({
+            errorClass: "error fail-alert",            
+            rules: {
+                Pemail: {
+                    required: true,
+                    email: true
+
+                },
+                Ppassword: {
+                    required: true
+                }
+
+            },
+            messages: {
+                Pemail: {
+                    required: 'Please Enter Email Address',
+                    email: 'Please Enter Email in proper format',
+                    focus() { }
+                },
+                Ppassword: {
+                    required: 'Please Enter Password',
+                    focus() { }
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        })
+    });
+
+</script>
+}
+
+

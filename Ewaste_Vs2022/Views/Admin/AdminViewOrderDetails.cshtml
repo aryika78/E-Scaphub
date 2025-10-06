@@ -1,0 +1,225 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.OrderMaster>
+@{
+    ViewData["Title"] = "AdminViewOrderDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("AdminHome","Admin")">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>
+    </div>
+</nav>
+
+<h2 class="p-1  bg-success  font-weight-normal text-white " style="margin-bottom:15px;">User Order Details</h2>
+@*to Preview Image Before Upload -- start*@
+<style type="text/css">
+    .thumb-image {
+        float: left;
+        width: 100px;
+        position: relative;
+        padding: 5px;
+    }
+</style>
+@*to Preview Image Before Upload -- end*@
+
+@*itemModal starts from here*@
+
+
+
+<style>
+    /*this style is for itemModal for following style no css file needed*/
+    .modal {
+        text-align: center;
+        padding: 0 !important;
+    }
+
+        .modal:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            margin-right: -4px;
+        }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+</style>
+
+
+<div class="container">
+    <!-- The Modal -->
+    <div class="modal" id="categoryModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header bg-success">
+                    <h4 class="modal-title" style="color:white;font-family:'Arial Rounded MT';font-size:30px;">User Details</h4>
+                    <button type="button" id="btnClose" class="close" style="color:white;font-size:35px;" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form method="post" id="categoryform">
+
+                        <div class="form-group">
+                            <input hidden="hidden" class="form-control" type="text" id="Pid" name="Pid" readonly />
+                        </div>
+                        <div class="form-group row">
+                            <div id="wrapper" style="margin-top: 20px;margin-left:350px; background-color:white;">
+                                <div id="image-holder">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:30px; width:150px; color:black; font-weight:700;">User Name:</label> <input style="color:blue;  background-color:transparent;border-color:transparent;font-size:30px;font-weight:700;" border="0" id="Pname" name="Pname" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-size:30px; width:150px; color:black; font-weight:700;">Address:</label> <input style="color:blue; background-color:transparent;border-color:transparent;font-size:30px;font-weight:700;" border="0" id="Paddress" name="Paddress" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-size:30px; width:150px; color:black; font-weight:700;">Email:</label> <input style="color:blue; background-color:transparent;border-color:transparent;font-size:30px;font-weight:700;" border="0" id="Pemail" name="Pemail" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label style="font-size:30px; width:150px; color:black; font-weight:700;">Phone:</label> <input style="color:blue; background-color:transparent;border-color:transparent;font-size:30px;font-weight:700;" border="0" id="Pphone" name="Pphone" readonly />
+                        </div>
+
+
+
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer bg-warning">
+                    <button type="button" id="btnOk" class="btn" style="background-color:yellow;" data-dismiss="modal">Ok, thanks...</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@*catModal Ends from here*@
+
+
+<div style="margin-top:50px;margin-bottom:50px;width:80%;margin-left:200px;">
+    <table id="OrdDetails" class="display" style="color:blue;background-color:yellow;">
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Date</th>                                                
+                <th>Area</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>GrandTotal</th>
+                <th>PaymentMode</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ord in Model)
+            {
+                <tr>
+                    <td>@ord.Ordid</td>
+                    <td>@ord.Orddate</td>                                       
+                    <td>@ord.Areaid</td>
+                    <td>@ord.Ordstatus</td>
+                    <td>@ord.Ordtotal</td>
+                    <td>@ord.Ordgrandtotal</td>
+                    <td>@ord.Ordpaymentmode</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+@section orddetailsValidation
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            dataTable = $('#OrdDetails').DataTable();
+
+
+
+
+
+            $("#btnClose").click(function () {
+                $("#categoryform")[0].reset();
+                var validator = $("#categoryform").validate();
+                validator.resetForm();
+                var image_holder = $("#image-holder");
+                image_holder.empty();
+            });
+
+
+
+
+            var currentRow, col1,cid,imgPath,perid,pername,peraddr,peremail,perphone;
+
+            var successFunction = function (response) {
+
+               // alert(pername);
+               // alert(peraddr);
+                $("#categoryModal #Pid").val(perid);
+                $("#categoryModal #Pname").val(pername);
+                $("#categoryModal #Paddress").val(peraddr);
+                $("#categoryModal #Pphone").val(perphone);
+                $("#categoryModal #Pemail").val(peremail);
+                alert(imgPath);
+                var image_holder = $("#image-holder");
+                image_holder.empty();
+                var image_holder = $("#image-holder");
+                $("<img />", {
+                    "src": '@Url.Content("~/")' + imgPath ,
+                    "class": "thumb-image"
+                }).appendTo(image_holder);
+                image_holder.show();
+
+            }
+
+            //best link to read table cell values ==> https://codepedia.info/jquery-get-table-cell-td-value-div/#hd_2
+            $(".btnPersonDetails").on('click', function () {
+                 currentRow = $(this).closest("tr");
+                 col1 = currentRow.find("td:eq(2)").html();
+                 //alert("clicked...");
+                 //alert(col1);
+                ///////////////////
+                $.ajax({
+                    datatype: 'json',
+                    type: 'post',
+                    data: { Pid : col1 },
+                    url: '@Url.Action("AdminGetUserDetails", "Admin")',
+                    success: function (result) {
+
+                        perid = result.pId;
+                        pername = result.pName;
+                        peraddr = result.pAddr;
+                        peremail = result.pEmail;
+                        perphone = result.pPhone;
+                        imgPath = result.pImage;
+                       // alert(perid);
+
+                    },
+                    error: function (res) {
+                    }
+                }).done(successFunction)
+
+            });
+
+        });
+    </script>
+}

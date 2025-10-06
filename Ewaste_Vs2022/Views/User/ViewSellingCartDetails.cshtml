@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Ewaste_Vs2022.Models.CartMaster>
+@{
+    ViewData["Title"] = "ViewSellingCartDetails";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    var MainCatList = (List<Ewaste_Vs2022.Models.ProductCategoryMaster>)ViewBag.catdetails;
+    var SCList = (List<Ewaste_Vs2022.Models.ProductSubCategory>)ViewBag.itmdetails;
+}
+
+<nav class="navbar navbar-light bg-warning">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="@Url.Action("UserHome","User", new { Pid = Convert.ToInt32(TempData["usrId"]) })">
+            <img src="~/Template/assets/images/emp4.jpg" alt="" width="30" height="24" class="d-inline-block align-top">
+            Ewaste
+        </a>        
+    </div>
+</nav>
+
+
+@{
+
+    int price = 0;
+
+
+    <div style="margin-top:15px; width:100%; margin-bottom:50px;">
+        <h2 class="p-1  bg-success  font-weight-normal text-white " style="margin-bottom:15px;">Selling Cart Details <span style="margin-left:1000px;"> 
+                @if (Model.Count() != 0)
+                {
+                    <a class="btn btn-warning btn-sm" style="width:200px;font-size:30px;" href="@Url.Action("UserSellingFinalizeArea", "User")"><i class='fa fa-car'></i> Finalize</a>
+                }
+        </span>  </h2>
+        <div style="width:90%;">
+            <table id="sellingcartDetails" class="display" style="width:80%;">
+                <thead>
+                    <tr>
+                        <th>Cartid</th>
+                        <th>Main Category</th>
+                        <th>Sub Category</th>
+                        <th>Price/Unit</th>
+                        <th>Quantity or Length</th>
+                        <th>Total Price</th>
+                        <th style="text-align:center;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rec in Model)
+                    {
+                        <tr>
+                            <td>
+                                @rec.Cartid
+                            </td>
+                            <td>
+                                @foreach (var sc in SCList)
+                                {
+                                    if (rec.SCid == sc.SCid)
+                                    {
+                                        foreach (var cat in MainCatList)
+                                        {
+                                            if (sc.Catid == cat.Catid)
+                                            {
+                                                @cat.Catname;
+                                            }
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @foreach (var sc in SCList)
+                                {
+                                    if (rec.SCid == sc.SCid)
+                                    {
+                                        @sc.SCname
+                                        price = Convert.ToInt32(sc.SCpriceperunit);
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @price
+                            </td>
+                            <td>
+                                @rec.SCQty
+
+                            </td>
+                            <td>
+                                @(Convert.ToInt32(price) * Convert.ToInt32(rec.SCQty))
+                            </td>
+                            <td style="text-align:center; width:200px;">
+                                <a class="btn btn-success btn-sm" style="width:80px;"  href="@Url.Action("UserEditCartDetails", "User", new { Cartid = rec.Cartid })" ><i class='fa fa-pencil'></i> Edit</a> &nbsp;&nbsp;
+                                <a class="btn btn-warning btn-sm" style="width:80px;" href="@Url.Action("UserDeleteCartDetails", "User", new { Cartid = rec.Cartid })" onclick="return confirm('Are sure wants to delete?');"><i class='fa fa-trash'></i> Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+            $(document).ready(function () {
+                $('#sellingcartDetails').DataTable({
+                    "order": [[0, "asc"]]
+                });               
+
+           
+                $("#categoryform").validate({                    
+                    onfocusout: false,
+                    invalidHandler: function (form, validator) {
+                        var errors = validator.numberOfInvalids();
+                        if (errors) {                            
+                            validator.errorList[0].element.focus();
+                        }                        
+                    },                    
+                    rules: {
+                        Catname: {
+                            required: true,
+                        },
+                        CatId: {
+                            required: true,
+                        },
+                    },
+                    messages: {
+                        Catname: {
+                            required: 'Please Specify Category name'
+                        },
+                        CatId: {
+                            required: 'Please Specify CategoryId'
+                        },
+                    },
+                    errorPlacement: function (error, element) {
+                        error.insertAfter(element.parent());
+                    }
+                });
+            });
+</script>
